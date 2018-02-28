@@ -1,2 +1,9 @@
 numpy
 pandas
+keras
+matplotlib
+seaborn
+xgboost
+sklearn
+tensorflow
+theano
