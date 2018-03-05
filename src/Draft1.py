@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy
 import pandas
 import seaborn as sns
-from xgboost import XGBRegressor
+#from xgboost import XGBRegressor
 import os
 
 print('Finished importing libraries.')
@@ -16,31 +16,25 @@ print('Finished importing libraries.')
 ### USER CONFIGURATION ###
 ##########################
 
-# check if running on windows or linux, because of the way directories are parsed
-if os.name == 'nt':
-    runWin = True
-else:
-    runWin = False
-
-# choose full dataset or 10,000samples
-fulldataset = False
+# choose full dataset or 10,000 samples
+fulldataset = True
 
 #  booleans to quickly enable / disable code
 datadescription = False # Disable to disable printing and plotting of data statistics
 
 #  Evaluation Models
-plotResults = False #  Disable if you want to display MAE only, and don't want to plot results
+plotResults = False # Disable if you want to display MAE only, and don't want to plot results
 makePredictions = False
-EvalLinearReg = True
-EvalRidgeReg = True
-EvalLASSOLinearReg = True
+EvalLinearReg= True
+EvalRidgeReg= True
+EvalLASSOLinearReg= True
 EvalElasticNetReg = True
 EvalKNN = True
 EvalCART = True
 EvalSVM = True
 EvalBaggedDecisionTrees = False # Very long computation time for n_estimators > 1
-EvalRandomForest = True
-EvalExtraTrees = True
+EvalRandomForest = False # Very long computation time
+EvalExtraTrees = False # Very long computation time
 EvalAdaBoost = True
 EvalSGBoost = True
 EvalMLP = True
@@ -52,26 +46,23 @@ EvalXGBoost = True
 
 # Read datasets
 
+# check if running on windows or linux, because of the way directories are parsed
+dirr = os.path.dirname(os.path.realpath('__file__'))
+if os.name == 'nt':
+    dirr = ''
+
 if not fulldataset:
-        print('Reading 10,000 samples...')
-        if not runWin:
-                dirr = os.path.dirname(os.path.realpath('__file__'))
-                dataset = pandas.read_csv(os.path.join(dirr, "raw data/subset/train(1-10000).csv"))
-                dataset_test = pandas.read_csv(os.path.join(dirr, "raw data/subset/test(1-10000).csv"))
-        else:
-                dataset = pandas.read_csv("../raw data/subset/train(1-10000).csv")
-                dataset_test = pandas.read_csv("../raw data/subset/test(1-10000).csv")
+    print('Reading 10,000 samples...')
+    dataset = pandas.read_csv(os.path.join(dirr, "../raw data/subset/train(1-10000).csv"))
+    dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/subset/test(1-10000).csv"))
 else:
-        print('Reading full dataset...')
-        if not runWin:
-                dirr = os.path.dirname(os.path.realpath('__file__'))
-                dataset = pandas.read_csv(os.path.join(dirr, "raw data/subset/train.csv"))
-                dataset_test = pandas.read_csv(os.path.join(dirr, "raw data/subset/test.csv"))
-        else:
-                dataset = pandas.read_csv("../raw data/subset/train.csv")
-                dataset_test = pandas.read_csv("../raw data/subset/test.csv")
+    print('Reading full dataset...')
+    dataset = pandas.read_csv(os.path.join(dirr, "../raw data/full/train.csv"))
+    dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/full/test.csv"))
 
 print('Finished reading datasets.')
+print('Read ' + str(dataset.shape[0]) + ' training data samples with ' + str(dataset.shape[1]) + ' attributes.')
+print('Read ' + str(dataset_test.shape[0]) + ' testing data samples with ' + str(dataset_test.shape[1]) + ' attributes.')
 
 # Save the id's for submission file, then drop unnecessary columns
 ID = dataset_test['id']
@@ -372,30 +363,25 @@ if EvalLinearReg:
         # print('Name = ' + str(name) + '; i_cols_list = ' + str(i_cols_list))
         model.fit(X_train[:,i_cols_list],Y_train)
 
-        # Sanitize predicted output so it doesn't contain inf values
         predictedOutput = numpy.expm1(model.predict(X_val[:,i_cols_list]))
-  
+
+        # Check output
+        if numpy.isnan(predictedOutput).any():
+            print('WARNING: some predicted output values are NaN, and will be replaced with 0!')
+        if numpy.isinf(predictedOutput).any():
+            print('WARNING: some predicted output values are inf, and will be replaced with ' + str(numpy.finfo('float64').max) + '!')
+
+       # Sanitize predicted output so it doesn't contain inf or nan values
         predictedOutputx = []
         for i in predictedOutput:
             if numpy.isinf(i):
-                # substitute infinite numbers with largest possible representable number
+                # substitute inf values with largest possible representable number
                 predictedOutputx = numpy.append(predictedOutputx,numpy.finfo('float64').max)
+            elif numpy.isnan(i):
+                # substitute nan values with 0
+                predictedOutputx = numpy.append(predictedOutputx,0)
             else:
                 predictedOutputx = numpy.append(predictedOutputx,i)
-
-        # Check output
-        checkoutput = False
-        if checkoutput:
-            print('Sanitized output = ',end='')
-            for i in predictedOutputx:
-                print(i,end=', ')
-            print('')
-            print('numpy.isnan(predictedOutputx).any() = ' + str(numpy.isnan(predictedOutputx).any()))
-            print('numpy.isfinite(predictedOutputx).all() = ' + str(numpy.isfinite(predictedOutputx).all()))
-            print('numpy.isinf(predictedOutputx).any() = ' + str(numpy.isinf(predictedOutputx).any()))
-
-        if fulldataset: # no need to sanitize data if using full dataset
-                predictedOutputx = predictedOutput
 
         result = mean_absolute_error(numpy.expm1(Y_val), predictedOutputx)
         mae.append(result)
@@ -423,8 +409,7 @@ if EvalRidgeReg:
     print('alpha\tMAE')
 
     from sklearn.linear_model import Ridge
-    #a_list = numpy.array([0.5,1.0,1.5,2.0,5,10])
-    a_list = numpy.array([11, 13, 15, 17, 19])
+    a_list = numpy.array([70, 90, 110, 130, 150])
 
     for alpha in a_list:
         print(str(alpha), end='')
@@ -468,8 +453,7 @@ if EvalLASSOLinearReg:
     print('alpha\tMAE')
 
     from sklearn.linear_model import Lasso
-    #a_list = numpy.array([0.0005, 0.001, 0.003, 0.005])
-    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004])
+    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.001, 0.003, 0.005])
 
     for alpha in a_list:
         # Set the base model
@@ -513,8 +497,7 @@ if EvalElasticNetReg:
     print('alpha\tMAE')
 
     from sklearn.linear_model import ElasticNet
-    #a_list = numpy.array([0.0005, 0.0007, 0.001, 0.003, 0.005])
-    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004])
+    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004, 0.0005])
 
     for alpha in a_list:
         # Set the base model
@@ -718,7 +701,7 @@ if EvalRandomForest:
     print('n_estimators\tMAE')
 
     from sklearn.ensemble import RandomForestRegressor
-    n_list = numpy.array([10, 30, 50, 70, 90])
+    n_list = numpy.array([120, 150, 180])
 
     for n_estimators in n_list:
         # Set the base model
@@ -759,7 +742,7 @@ if EvalExtraTrees:
     print('Author\'s best: n_est=100, MAE=1254')
     print('n_estimators\tMAE')
     from sklearn.ensemble import ExtraTreesRegressor
-    n_list = numpy.array([50, 70, 90, 100, 130, 150])
+    n_list = numpy.array([180, 210, 240, 270])
 
     for n_estimators in n_list:
         # Set the base model
@@ -800,7 +783,7 @@ if EvalAdaBoost:
     print('Author\'s best: n_est=100, MAE=1678')
     print('n_estimators\tMAE')
     from sklearn.ensemble import AdaBoostRegressor
-    n_list = numpy.array([80, 90, 100, 110, 120, 150])
+    n_list = numpy.array([80, 100, 120, 160, 180])
 
     for n_estimators in n_list:
         # Set the base model
@@ -841,7 +824,7 @@ if EvalSGBoost:
     print('Author\'s best: n_list=50, MAE=1278')
     print('n_estimators\tMAE')
     from sklearn.ensemble import GradientBoostingRegressor
-    n_list = numpy.array([30, 40, 50, 60, 70])
+    n_list = numpy.array([90, 110, 130, 150])
 
     for n_estimators in n_list:
         # Set the base model
