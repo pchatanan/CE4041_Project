@@ -1,15 +1,18 @@
 from __future__ import print_function
+print('Importing libraries...')
 import keras
 import warnings
 warnings.filterwarnings('ignore')
-import pandas
 import matplotlib.pyplot as plt
 import numpy
 import pandas
 import seaborn as sns
-#from xgboost import XGBRegressor
+from xgboost import XGBRegressor
 import os
+import sys
+import socket
 
+print(sys.version)
 print('Finished importing libraries.')
 
 ##########################
@@ -17,28 +20,63 @@ print('Finished importing libraries.')
 ##########################
 
 # choose full dataset or 10,000 samples
-fulldataset = True
+fulldataset = False
 
 #  booleans to quickly enable / disable code
 datadescription = False # Disable to disable printing and plotting of data statistics
-
-#  Evaluation Models
 plotResults = False # Disable if you want to display MAE only, and don't want to plot results
 makePredictions = False
-EvalLinearReg= True
-EvalRidgeReg= True
-EvalLASSOLinearReg= True
-EvalElasticNetReg = True
-EvalKNN = True
-EvalCART = True
-EvalSVM = True
-EvalBaggedDecisionTrees = False # Very long computation time for n_estimators > 1
-EvalRandomForest = False # Very long computation time
-EvalExtraTrees = False # Very long computation time
-EvalAdaBoost = True
-EvalSGBoost = True
-EvalMLP = True
-EvalXGBoost = True
+
+EvalLinearReg = False
+EvalRidgeReg = False
+EvalLASSOLinearReg = False
+EvalElasticNetReg = False
+EvalKNN = False
+EvalCART = False
+EvalSVM = False
+EvalBaggedDecisionTrees = False
+EvalRandomForest = False
+EvalExtraTrees = False
+EvalAdaBoost = False
+EvalSGBoost = False
+EvalMLP = False
+EvalXGBoost = False
+
+# alt4 to enable, alt3 to disable quickly
+##EvalLinearReg = True
+##EvalRidgeReg = True
+##EvalLASSOLinearReg = True
+##EvalElasticNetReg = True
+##EvalKNN = True
+##EvalCART = True
+##EvalSVM = True
+##EvalBaggedDecisionTrees = True
+##EvalRandomForest = True
+##EvalExtraTrees = True
+##EvalAdaBoost = True
+##EvalSGBoost = True
+##EvalMLP = True
+##EvalXGBoost = True
+
+# Input parameters
+ParaRidgeReg = numpy.array([1,5,10,30,50,60]);
+ParaLASSOLinearReg = numpy.array([0.00003,0.00004,0.00005]);
+ParaElasticNetReg = numpy.array([0.002,0.003,0.004,0.005]);
+ParaKNN = numpy.array([1,2,5]);
+ParaCART = numpy.array([1,3,5,7,9]);
+ParaSVM = numpy.array([0.1,0.5,1,3,5,10,50]);
+ParaBaggedDecisionTrees = numpy.array([1,2,3,4,5]);
+ParaRandomForest = numpy.array([30,50,70,90,110,130]);
+ParaExtraTrees = numpy.array([70,90,110,130,150,170,190]);
+ParaAdaBoost = numpy.array([80,100,120,160,180]);
+ParaSGBoost = numpy.array([350,400,500]);
+ParaXGBoost = numpy.array([100]);
+
+# send message to local machine
+##sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+##IPADDR = "192.168.1.100"
+##IPPORT = 5004
+##sock.sendto("Started".encode(), (IPADDR, IPPORT))
 
 ##################
 ### END CONFIG ###
@@ -158,9 +196,26 @@ if datadescription:
 ### DATA TRANSFORMATION - SKEW CORRECTION ###
 #############################################
 
-# log1p function applies log(1+x) to all elements of the column
-dataset["loss"] = numpy.log1p(dataset["loss"])
+# define functions for transforming / inverse transforming the loss
+# so that we don't have to manually replace functions when we decide to change
+# the transformation function
+# so throughout this program, transformData() and inverseTransformData()
+# will be used instead of whatever function you're using to transform
+
+shift=500
+def transformData(data):
+    return numpy.log(data+shift)
+def inverseTransformData(data):
+    return (numpy.exp(data)-shift)
+
+# transformed loss = log(shift+original loss)
+# original loss = e^(transformed loss)-shift
+# author's shift is 1
+dataset["loss"] = transformData(dataset["loss"])
+
 if datadescription:
+    print(dataset.describe())
+    print(dataset.skew())
     # visualize the transformed column
     sns.violinplot(data=dataset,y="loss")
     plt.show()
@@ -332,9 +387,6 @@ comb = []
 # Dictionary to store the MAE for all algorithms
 mae = []
 
-# Scoring parameter
-from sklearn.metrics import mean_absolute_error
-
 # Add this version of X to the list
 n = "All"
 X_all.append([n, i_cols])
@@ -343,10 +395,26 @@ X_all.append([n, i_cols])
 ### EVALUATION ###
 ##################
 
+# calculating error based on calculated output depends on:
+# 1. restoring calculated values to original scale, which depends on how you first transformed it.
+# eg author used loss = log(loss+1) = numpy.log1p(loss) so inverse is loss = e^(loss)-1 = numpy.expm1(loss)
+# 2. evaluation metric used. here it's MAE
+from sklearn.metrics import mean_absolute_error
+
+# assumes actual and predicted values already converted
+def getResultSimple(actual, predicted):
+    return mean_absolute_error(actual,predicted)
+
+# assumes actual and predicted values already converted
+def getResult(actual, predicted):
+    actual = inverseTransformData(actual)
+    predicted = inverseTransformData(predicted)
+    return mean_absolute_error(actual,predicted)
+
 ### Linear Regression (Linear algo)
 #  Author's best: LR, MAE=1278
 
-if EvalLinearReg:
+def LinearReg():
 
     print('\n\nLinear Regression (Linear algo)')
     print('Author\'s best: LR, MAE=1278')
@@ -363,7 +431,7 @@ if EvalLinearReg:
         # print('Name = ' + str(name) + '; i_cols_list = ' + str(i_cols_list))
         model.fit(X_train[:,i_cols_list],Y_train)
 
-        predictedOutput = numpy.expm1(model.predict(X_val[:,i_cols_list]))
+        predictedOutput = inverseTransformData(model.predict(X_val[:,i_cols_list]))
 
         # Check output
         if numpy.isnan(predictedOutput).any():
@@ -383,7 +451,7 @@ if EvalLinearReg:
             else:
                 predictedOutputx = numpy.append(predictedOutputx,i)
 
-        result = mean_absolute_error(numpy.expm1(Y_val), predictedOutputx)
+        result = getResultSimple(inverseTransformData(Y_val), predictedOutputx)
         mae.append(result)
         print('\t' + str(result))
     comb.append(algo)
@@ -402,14 +470,13 @@ if EvalLinearReg:
 ### Ridge Regression (Linear algo)
 #  Author's best: alpha=1, MAE=1267
 
-if EvalRidgeReg:
+def RidgeReg(a_list):
 
     print('\n\nRidge Regression (Linear algo)')
     print('Author\'s best: alpha=1, MAE=1267')
     print('alpha\tMAE')
 
     from sklearn.linear_model import Ridge
-    a_list = numpy.array([70, 90, 110, 130, 150])
 
     for alpha in a_list:
         print(str(alpha), end='')
@@ -421,7 +488,7 @@ if EvalRidgeReg:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -446,14 +513,13 @@ if EvalRidgeReg:
 ### LASSO Linear Regression (Linear algo)
 #  Author's best: alpha=0.001, MAE=1262.5
 
-if EvalLASSOLinearReg:
+def LASSOLinearReg(a_list):
 
     print('\n\nLASSO Linear Regression (Linear algo)')
     print('Author\'s best: alpha=0.001, MAE=1262.5')
     print('alpha\tMAE')
 
     from sklearn.linear_model import Lasso
-    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.001, 0.003, 0.005])
 
     for alpha in a_list:
         # Set the base model
@@ -465,7 +531,7 @@ if EvalLASSOLinearReg:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -491,13 +557,12 @@ if EvalLASSOLinearReg:
 ### Elastic Net Regression (Linear algo)
 #  Author's best: alpha=0.001, MAE=1260
 
-if EvalElasticNetReg:
+def ElasticNetReg(a_list):
     print('\n\nElastic Net Regression (Linear algo)')
     print('Author\'s best: alpha=0.001, MAE=1260')
     print('alpha\tMAE')
 
     from sklearn.linear_model import ElasticNet
-    a_list = numpy.array([0.0001, 0.0002, 0.0003, 0.0004, 0.0005])
 
     for alpha in a_list:
         # Set the base model
@@ -508,7 +573,7 @@ if EvalElasticNetReg:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -533,13 +598,12 @@ if EvalElasticNetReg:
 ### KNN (non-linear algo)
 #  Author's best: n=1, MAE=1745
 
-if EvalKNN:
+def KNN(n_list):
     print('\n\nKNN (non-linear algo)')
     print('Author\'s best: n=1, MAE=1745')
     print('n_neighbors\tMAE')
 
     from sklearn.neighbors import KNeighborsRegressor
-    n_list = numpy.array([1, 2, 5])
 
     for n_neighbors in n_list:
         # Set the base model
@@ -550,7 +614,7 @@ if EvalKNN:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -575,12 +639,11 @@ if EvalKNN:
 ### CART (non-linear algo)
 #  Author's best: depth=5, MAE=1741
 
-if EvalCART:
+def CART(d_list):
     print('\n\nCART (non-linear algo)')
     print('Author\'s best: depth=5, MAE=1741')
     print('max depth\tMAE')
     from sklearn.tree import DecisionTreeRegressor
-    d_list = numpy.array([1, 3, 5, 7, 9])
 
     for max_depth in d_list:
         # Set the base model
@@ -591,7 +654,7 @@ if EvalCART:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             #  print('\t' + str(result))
             print('\t' + str(result))
@@ -617,12 +680,11 @@ if EvalCART:
 ### SVM (Non-linear algo)
 #  Author's best: unknown
 
-if EvalSVM:
+def SVM(c_list):
     print('\n\nSVM (Non-linear algo)')
     print('Author\'s best: Unknown')
     print('C\t\tMAE')
     from sklearn.svm import SVR
-    c_list = numpy.array([0.1, 0.5, 1, 3, 5, 10, 50])
 
     for C in c_list:
         # Set the base model
@@ -633,7 +695,7 @@ if EvalSVM:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -655,15 +717,12 @@ if EvalSVM:
 ### Bagged Decision Trees (Bagging)
 #  Author's best: unknown
 
-if EvalBaggedDecisionTrees:
+def BaggedDecisionTrees(n_list):
     print('\n\nBagged Decision Trees (Bagging)')
     print('Author\'s best: Unknown')
     print('n_estimators\tMAE')
     from sklearn.ensemble import BaggingRegressor
     from sklearn.tree import DecisionTreeRegressor
-
-    #n_list = numpy.array([1,3,5,7])
-    n_list = numpy.array([9,11,13,15,17])
 
     for n_estimators in n_list:
         # Set the base model
@@ -674,7 +733,7 @@ if EvalBaggedDecisionTrees:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -695,13 +754,12 @@ if EvalBaggedDecisionTrees:
 ### Random Forest (Bagging)
 #  Author's best: n_est=50, MAE=1213
 
-if EvalRandomForest:
+def RandomForest(n_list):
     print('\n\nRandom Forest (Bagging)')
     print('Author\'s best: n_est=50, MAE=1213')
     print('n_estimators\tMAE')
 
     from sklearn.ensemble import RandomForestRegressor
-    n_list = numpy.array([120, 150, 180])
 
     for n_estimators in n_list:
         # Set the base model
@@ -712,7 +770,7 @@ if EvalRandomForest:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -737,12 +795,11 @@ if EvalRandomForest:
 ### Extra Trees (Bagging)
 #  Author's best: n_est=100, MAE=1254
 
-if EvalExtraTrees:
+def ExtraTrees(n_list):
     print('\n\nExtra Trees (Bagging)')
     print('Author\'s best: n_est=100, MAE=1254')
     print('n_estimators\tMAE')
     from sklearn.ensemble import ExtraTreesRegressor
-    n_list = numpy.array([180, 210, 240, 270])
 
     for n_estimators in n_list:
         # Set the base model
@@ -753,7 +810,7 @@ if EvalExtraTrees:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -778,12 +835,11 @@ if EvalExtraTrees:
 ### AdaBoost (Boosting)
 #  Author's best: n_est=100, MAE=1678
 
-if EvalAdaBoost:
+def AdaBoost(n_list):
     print('\n\nAdaBoost (Boosting)')
     print('Author\'s best: n_est=100, MAE=1678')
     print('n_estimators\tMAE')
     from sklearn.ensemble import AdaBoostRegressor
-    n_list = numpy.array([80, 100, 120, 160, 180])
 
     for n_estimators in n_list:
         # Set the base model
@@ -794,7 +850,7 @@ if EvalAdaBoost:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -819,12 +875,11 @@ if EvalAdaBoost:
 ### Stochastic Gradient Boosting (Boosting)
 #  Author's best: n_list=50, MAE=1278
 
-if EvalSGBoost:
+def SGBoost(n_list):
     print('\n\nStochastic Gradient Boosting (Boosting)')
     print('Author\'s best: n_list=50, MAE=1278')
     print('n_estimators\tMAE')
     from sklearn.ensemble import GradientBoostingRegressor
-    n_list = numpy.array([90, 110, 130, 150])
 
     for n_estimators in n_list:
         # Set the base model
@@ -835,7 +890,7 @@ if EvalSGBoost:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -860,7 +915,7 @@ if EvalSGBoost:
 ### MLP (Deep Learning)
 #  Author's best: MLP, MAE=1168
 
-if EvalMLP:
+def MLP():
     print('\n\nMLP (Deep Learning)')
     print('Author\'s best: MLP, MAE=1168')
     print('Model\tMAE')
@@ -941,7 +996,7 @@ if EvalMLP:
         for m,i_cols_list in X_all:
             model = KerasRegressor(build_fn=est, v=1, nb_epoch=10, verbose=0)
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -963,16 +1018,17 @@ if EvalMLP:
         # Plot the accuracy for all combinations
         plt.show()
 
+
+
 ### XGBoost
 #  Author's best: n=1000, MAE=1169
 
-if EvalXGBoost:
+def XGBoost(n_list):
     print('\n\nXGBoost')
     print('Author\'s best: n=1000, MAE=1169')
     print('n_estimators\tMAE')
     from xgboost import XGBRegressor
 
-    n_list = numpy.array([800, 900, 1000, 1100, 1200, 1500])
 
     for n_estimators in n_list:
         # Set the base model
@@ -983,7 +1039,7 @@ if EvalXGBoost:
         # Accuracy of the model using all features
         for name,i_cols_list in X_all:
             model.fit(X_train[:,i_cols_list],Y_train)
-            result = mean_absolute_error(numpy.expm1(Y_val), numpy.expm1(model.predict(X_val[:,i_cols_list])))
+            result = getResult(Y_val, model.predict(X_val[:,i_cols_list]))
             mae.append(result)
             print('\t' + str(result))
 
@@ -1005,8 +1061,37 @@ if EvalXGBoost:
         # Plot the accuracy for all combinations
         plt.show()
 
-if makePredictions:
+if EvalLinearReg:		
+	LinearReg();	
+if EvalRidgeReg:		
+	RidgeReg(ParaRidgeReg);
+if EvalLASSOLinearReg:		
+	LASSOLinearReg(ParaLASSOLinearReg);
+if EvalElasticNetReg:		
+	ElasticNetReg(ParaElasticNetReg);
+if EvalKNN:		
+	KNN(ParaKNN);
+if EvalCART:		
+	CART(ParaCART);
+if EvalSVM:		
+	SVM(ParaSVM);
+if EvalBaggedDecisionTrees:		
+	BaggedDecisionTrees(ParaBaggedDecisionTrees);
+if EvalRandomForest:		
+	RandomForest(ParaRandomForest);
+if EvalExtraTrees:		
+	ExtraTrees(ParaExtraTrees);
+if EvalAdaBoost:		
+	AdaBoost(ParaAdaBoost);
+if EvalSGBoost:		
+	SGBoost(ParaSGBoost);
+if EvalMLP:		
+	MLP();	
+if EvalXGBoost:		
+	XGBoost(ParaXGBoost);
 
+if makePredictions:
+    print('Making predictions...')
     #  Make predictions using XGB as it gave the best estimated performance
 
     X = numpy.concatenate((X_train,X_val),axis=0)
@@ -1016,15 +1101,24 @@ if makePredictions:
     del Y_train
     del Y_val
 
-    n_estimators = 1000
+    n_estimators=100
 
     # Best model definition
     best_model = XGBRegressor(n_estimators=n_estimators,seed=seed)
     best_model.fit(X,Y)
     del X
     del Y
-    # Read test dataset
-    dataset_test = pandas.read_csv("../input/test.csv")
+
+    # check if running on windows or linux, because of the way directories are parsed
+    dirr = os.path.dirname(os.path.realpath('__file__'))
+    if os.name == 'nt':
+        dirr = ''
+        
+    if not fulldataset:
+        dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/subset/test(1-10000).csv"))
+    else:
+        dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/full/test.csv"))
+        
     # Drop unnecessary columns
     ID = dataset_test['id']
     dataset_test.drop('id',axis=1,inplace=True)
@@ -1054,10 +1148,12 @@ if makePredictions:
     del dataset_test
 
     # Make predictions using the best model
-    predictions = numpy.expm1(best_model.predict(X_test))
+    predictions = inverseTransformData(best_model.predict(X_test))
     del X_test
     #  Write submissions to output file in the correct format
     with open("submission.csv", "w") as subfile:
         subfile.write("id,loss\n")
         for i, pred in enumerate(list(predictions)):
             subfile.write("%s,%s\n"%(ID[i],pred))
+
+print('end')
