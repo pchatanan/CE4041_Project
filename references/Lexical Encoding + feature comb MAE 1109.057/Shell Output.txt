@@ -1,0 +1,832 @@
+Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+[GCC 5.4.0 20160609] on linux2
+Type "copyright", "credits" or "license()" for more information.
+>>> 
+ RESTART: /home/faith/Dropbox/CE4041_Project/src/Other Peoples' Code/Lexical Encoding + feature comb (LB 1109.05787).py 
+
+Warning (from warnings module):
+  File "/usr/local/lib/python2.7/dist-packages/sklearn/cross_validation.py", line 41
+    "This module will be removed in 0.20.", DeprecationWarning)
+DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+Started
+
+Skew in numeric features:
+cont1     0.516420
+cont2    -0.310939
+cont3    -0.010002
+cont4     0.416093
+cont5     0.681617
+cont6     0.461211
+cont7     0.826046
+cont8     0.676629
+cont9     1.072420
+cont10    0.354998
+cont11    0.280819
+cont12    0.291990
+cont13    0.380739
+cont14    0.248672
+dtype: float64
+cat80_cat87
+cat80_cat57
+cat80_cat12
+cat80_cat79
+cat80_cat10
+cat80_cat7
+cat80_cat89
+cat80_cat2
+cat80_cat72
+cat80_cat81
+cat80_cat11
+cat80_cat1
+cat80_cat13
+cat80_cat9
+cat80_cat3
+cat80_cat16
+cat80_cat90
+cat80_cat23
+cat80_cat36
+cat80_cat73
+cat80_cat103
+cat80_cat40
+cat80_cat28
+cat80_cat111
+cat80_cat6
+cat80_cat76
+cat80_cat50
+cat80_cat5
+cat80_cat4
+cat80_cat14
+cat80_cat38
+cat80_cat24
+cat80_cat82
+cat80_cat25
+cat87_cat57
+cat87_cat12
+cat87_cat79
+cat87_cat10
+cat87_cat7
+cat87_cat89
+cat87_cat2
+cat87_cat72
+cat87_cat81
+cat87_cat11
+cat87_cat1
+cat87_cat13
+cat87_cat9
+cat87_cat3
+cat87_cat16
+cat87_cat90
+cat87_cat23
+cat87_cat36
+cat87_cat73
+cat87_cat103
+cat87_cat40
+cat87_cat28
+cat87_cat111
+cat87_cat6
+cat87_cat76
+cat87_cat50
+cat87_cat5
+cat87_cat4
+cat87_cat14
+cat87_cat38
+cat87_cat24
+cat87_cat82
+cat87_cat25
+cat57_cat12
+cat57_cat79
+cat57_cat10
+cat57_cat7
+cat57_cat89
+cat57_cat2
+cat57_cat72
+cat57_cat81
+cat57_cat11
+cat57_cat1
+cat57_cat13
+cat57_cat9
+cat57_cat3
+cat57_cat16
+cat57_cat90
+cat57_cat23
+cat57_cat36
+cat57_cat73
+cat57_cat103
+cat57_cat40
+cat57_cat28
+cat57_cat111
+cat57_cat6
+cat57_cat76
+cat57_cat50
+cat57_cat5
+cat57_cat4
+cat57_cat14
+cat57_cat38
+cat57_cat24
+cat57_cat82
+cat57_cat25
+cat12_cat79
+cat12_cat10
+cat12_cat7
+cat12_cat89
+cat12_cat2
+cat12_cat72
+cat12_cat81
+cat12_cat11
+cat12_cat1
+cat12_cat13
+cat12_cat9
+cat12_cat3
+cat12_cat16
+cat12_cat90
+cat12_cat23
+cat12_cat36
+cat12_cat73
+cat12_cat103
+cat12_cat40
+cat12_cat28
+cat12_cat111
+cat12_cat6
+cat12_cat76
+cat12_cat50
+cat12_cat5
+cat12_cat4
+cat12_cat14
+cat12_cat38
+cat12_cat24
+cat12_cat82
+cat12_cat25
+cat79_cat10
+cat79_cat7
+cat79_cat89
+cat79_cat2
+cat79_cat72
+cat79_cat81
+cat79_cat11
+cat79_cat1
+cat79_cat13
+cat79_cat9
+cat79_cat3
+cat79_cat16
+cat79_cat90
+cat79_cat23
+cat79_cat36
+cat79_cat73
+cat79_cat103
+cat79_cat40
+cat79_cat28
+cat79_cat111
+cat79_cat6
+cat79_cat76
+cat79_cat50
+cat79_cat5
+cat79_cat4
+cat79_cat14
+cat79_cat38
+cat79_cat24
+cat79_cat82
+cat79_cat25
+cat10_cat7
+cat10_cat89
+cat10_cat2
+cat10_cat72
+cat10_cat81
+cat10_cat11
+cat10_cat1
+cat10_cat13
+cat10_cat9
+cat10_cat3
+cat10_cat16
+cat10_cat90
+cat10_cat23
+cat10_cat36
+cat10_cat73
+cat10_cat103
+cat10_cat40
+cat10_cat28
+cat10_cat111
+cat10_cat6
+cat10_cat76
+cat10_cat50
+cat10_cat5
+cat10_cat4
+cat10_cat14
+cat10_cat38
+cat10_cat24
+cat10_cat82
+cat10_cat25
+cat7_cat89
+cat7_cat2
+cat7_cat72
+cat7_cat81
+cat7_cat11
+cat7_cat1
+cat7_cat13
+cat7_cat9
+cat7_cat3
+cat7_cat16
+cat7_cat90
+cat7_cat23
+cat7_cat36
+cat7_cat73
+cat7_cat103
+cat7_cat40
+cat7_cat28
+cat7_cat111
+cat7_cat6
+cat7_cat76
+cat7_cat50
+cat7_cat5
+cat7_cat4
+cat7_cat14
+cat7_cat38
+cat7_cat24
+cat7_cat82
+cat7_cat25
+cat89_cat2
+cat89_cat72
+cat89_cat81
+cat89_cat11
+cat89_cat1
+cat89_cat13
+cat89_cat9
+cat89_cat3
+cat89_cat16
+cat89_cat90
+cat89_cat23
+cat89_cat36
+cat89_cat73
+cat89_cat103
+cat89_cat40
+cat89_cat28
+cat89_cat111
+cat89_cat6
+cat89_cat76
+cat89_cat50
+cat89_cat5
+cat89_cat4
+cat89_cat14
+cat89_cat38
+cat89_cat24
+cat89_cat82
+cat89_cat25
+cat2_cat72
+cat2_cat81
+cat2_cat11
+cat2_cat1
+cat2_cat13
+cat2_cat9
+cat2_cat3
+cat2_cat16
+cat2_cat90
+cat2_cat23
+cat2_cat36
+cat2_cat73
+cat2_cat103
+cat2_cat40
+cat2_cat28
+cat2_cat111
+cat2_cat6
+cat2_cat76
+cat2_cat50
+cat2_cat5
+cat2_cat4
+cat2_cat14
+cat2_cat38
+cat2_cat24
+cat2_cat82
+cat2_cat25
+cat72_cat81
+cat72_cat11
+cat72_cat1
+cat72_cat13
+cat72_cat9
+cat72_cat3
+cat72_cat16
+cat72_cat90
+cat72_cat23
+cat72_cat36
+cat72_cat73
+cat72_cat103
+cat72_cat40
+cat72_cat28
+cat72_cat111
+cat72_cat6
+cat72_cat76
+cat72_cat50
+cat72_cat5
+cat72_cat4
+cat72_cat14
+cat72_cat38
+cat72_cat24
+cat72_cat82
+cat72_cat25
+cat81_cat11
+cat81_cat1
+cat81_cat13
+cat81_cat9
+cat81_cat3
+cat81_cat16
+cat81_cat90
+cat81_cat23
+cat81_cat36
+cat81_cat73
+cat81_cat103
+cat81_cat40
+cat81_cat28
+cat81_cat111
+cat81_cat6
+cat81_cat76
+cat81_cat50
+cat81_cat5
+cat81_cat4
+cat81_cat14
+cat81_cat38
+cat81_cat24
+cat81_cat82
+cat81_cat25
+cat11_cat1
+cat11_cat13
+cat11_cat9
+cat11_cat3
+cat11_cat16
+cat11_cat90
+cat11_cat23
+cat11_cat36
+cat11_cat73
+cat11_cat103
+cat11_cat40
+cat11_cat28
+cat11_cat111
+cat11_cat6
+cat11_cat76
+cat11_cat50
+cat11_cat5
+cat11_cat4
+cat11_cat14
+cat11_cat38
+cat11_cat24
+cat11_cat82
+cat11_cat25
+cat1_cat13
+cat1_cat9
+cat1_cat3
+cat1_cat16
+cat1_cat90
+cat1_cat23
+cat1_cat36
+cat1_cat73
+cat1_cat103
+cat1_cat40
+cat1_cat28
+cat1_cat111
+cat1_cat6
+cat1_cat76
+cat1_cat50
+cat1_cat5
+cat1_cat4
+cat1_cat14
+cat1_cat38
+cat1_cat24
+cat1_cat82
+cat1_cat25
+cat13_cat9
+cat13_cat3
+cat13_cat16
+cat13_cat90
+cat13_cat23
+cat13_cat36
+cat13_cat73
+cat13_cat103
+cat13_cat40
+cat13_cat28
+cat13_cat111
+cat13_cat6
+cat13_cat76
+cat13_cat50
+cat13_cat5
+cat13_cat4
+cat13_cat14
+cat13_cat38
+cat13_cat24
+cat13_cat82
+cat13_cat25
+cat9_cat3
+cat9_cat16
+cat9_cat90
+cat9_cat23
+cat9_cat36
+cat9_cat73
+cat9_cat103
+cat9_cat40
+cat9_cat28
+cat9_cat111
+cat9_cat6
+cat9_cat76
+cat9_cat50
+cat9_cat5
+cat9_cat4
+cat9_cat14
+cat9_cat38
+cat9_cat24
+cat9_cat82
+cat9_cat25
+cat3_cat16
+cat3_cat90
+cat3_cat23
+cat3_cat36
+cat3_cat73
+cat3_cat103
+cat3_cat40
+cat3_cat28
+cat3_cat111
+cat3_cat6
+cat3_cat76
+cat3_cat50
+cat3_cat5
+cat3_cat4
+cat3_cat14
+cat3_cat38
+cat3_cat24
+cat3_cat82
+cat3_cat25
+cat16_cat90
+cat16_cat23
+cat16_cat36
+cat16_cat73
+cat16_cat103
+cat16_cat40
+cat16_cat28
+cat16_cat111
+cat16_cat6
+cat16_cat76
+cat16_cat50
+cat16_cat5
+cat16_cat4
+cat16_cat14
+cat16_cat38
+cat16_cat24
+cat16_cat82
+cat16_cat25
+cat90_cat23
+cat90_cat36
+cat90_cat73
+cat90_cat103
+cat90_cat40
+cat90_cat28
+cat90_cat111
+cat90_cat6
+cat90_cat76
+cat90_cat50
+cat90_cat5
+cat90_cat4
+cat90_cat14
+cat90_cat38
+cat90_cat24
+cat90_cat82
+cat90_cat25
+cat23_cat36
+cat23_cat73
+cat23_cat103
+cat23_cat40
+cat23_cat28
+cat23_cat111
+cat23_cat6
+cat23_cat76
+cat23_cat50
+cat23_cat5
+cat23_cat4
+cat23_cat14
+cat23_cat38
+cat23_cat24
+cat23_cat82
+cat23_cat25
+cat36_cat73
+cat36_cat103
+cat36_cat40
+cat36_cat28
+cat36_cat111
+cat36_cat6
+cat36_cat76
+cat36_cat50
+cat36_cat5
+cat36_cat4
+cat36_cat14
+cat36_cat38
+cat36_cat24
+cat36_cat82
+cat36_cat25
+cat73_cat103
+cat73_cat40
+cat73_cat28
+cat73_cat111
+cat73_cat6
+cat73_cat76
+cat73_cat50
+cat73_cat5
+cat73_cat4
+cat73_cat14
+cat73_cat38
+cat73_cat24
+cat73_cat82
+cat73_cat25
+cat103_cat40
+cat103_cat28
+cat103_cat111
+cat103_cat6
+cat103_cat76
+cat103_cat50
+cat103_cat5
+cat103_cat4
+cat103_cat14
+cat103_cat38
+cat103_cat24
+cat103_cat82
+cat103_cat25
+cat40_cat28
+cat40_cat111
+cat40_cat6
+cat40_cat76
+cat40_cat50
+cat40_cat5
+cat40_cat4
+cat40_cat14
+cat40_cat38
+cat40_cat24
+cat40_cat82
+cat40_cat25
+cat28_cat111
+cat28_cat6
+cat28_cat76
+cat28_cat50
+cat28_cat5
+cat28_cat4
+cat28_cat14
+cat28_cat38
+cat28_cat24
+cat28_cat82
+cat28_cat25
+cat111_cat6
+cat111_cat76
+cat111_cat50
+cat111_cat5
+cat111_cat4
+cat111_cat14
+cat111_cat38
+cat111_cat24
+cat111_cat82
+cat111_cat25
+cat6_cat76
+cat6_cat50
+cat6_cat5
+cat6_cat4
+cat6_cat14
+cat6_cat38
+cat6_cat24
+cat6_cat82
+cat6_cat25
+cat76_cat50
+cat76_cat5
+cat76_cat4
+cat76_cat14
+cat76_cat38
+cat76_cat24
+cat76_cat82
+cat76_cat25
+cat50_cat5
+cat50_cat4
+cat50_cat14
+cat50_cat38
+cat50_cat24
+cat50_cat82
+cat50_cat25
+cat5_cat4
+cat5_cat14
+cat5_cat38
+cat5_cat24
+cat5_cat82
+cat5_cat25
+cat4_cat14
+cat4_cat38
+cat4_cat24
+cat4_cat82
+cat4_cat25
+cat14_cat38
+cat14_cat24
+cat14_cat82
+cat14_cat25
+cat38_cat24
+cat38_cat82
+cat38_cat25
+cat24_cat82
+cat24_cat25
+cat82_cat25
+('Median Loss:', 7.747411156506141)
+('Mean Loss:', 7.79983700887154)
+Fold 1
+[0]	train-rmse:6.32866	eval-rmse:6.32946	train-mae:3231.96	eval-mae:3240.29
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.65829	eval-rmse:0.662339	train-mae:1548.6	eval-mae:1559.88
+[100]	train-rmse:0.476703	eval-rmse:0.491399	train-mae:1148.75	eval-mae:1191.16
+[150]	train-rmse:0.461005	eval-rmse:0.480452	train-mae:1100.28	eval-mae:1158.22
+[200]	train-rmse:0.455532	eval-rmse:0.478622	train-mae:1082.76	eval-mae:1151.45
+[250]	train-rmse:0.451767	eval-rmse:0.477826	train-mae:1071.39	eval-mae:1148.36
+[300]	train-rmse:0.448205	eval-rmse:0.477208	train-mae:1061.12	eval-mae:1146.32
+[350]	train-rmse:0.44532	eval-rmse:0.476892	train-mae:1052.56	eval-mae:1145.15
+[400]	train-rmse:0.442142	eval-rmse:0.476512	train-mae:1043.47	eval-mae:1143.93
+[450]	train-rmse:0.439393	eval-rmse:0.476295	train-mae:1035.57	eval-mae:1143.13
+[500]	train-rmse:0.437168	eval-rmse:0.476106	train-mae:1029.06	eval-mae:1142.32
+[550]	train-rmse:0.434753	eval-rmse:0.475996	train-mae:1022.03	eval-mae:1142.11
+Stopping. Best iteration:
+[559]	train-rmse:0.434188	eval-rmse:0.475965	train-mae:1020.44	eval-mae:1141.99
+
+Fold 2
+[0]	train-rmse:6.32923	eval-rmse:6.32175	train-mae:3234.72	eval-mae:3215.5
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658598	eval-rmse:0.659049	train-mae:1550.82	eval-mae:1537.25
+[100]	train-rmse:0.477273	eval-rmse:0.488596	train-mae:1151.57	eval-mae:1168.86
+[150]	train-rmse:0.461511	eval-rmse:0.477685	train-mae:1103.06	eval-mae:1137.07
+[200]	train-rmse:0.455984	eval-rmse:0.475688	train-mae:1085.46	eval-mae:1130.64
+[250]	train-rmse:0.451986	eval-rmse:0.474551	train-mae:1073.18	eval-mae:1127.59
+[300]	train-rmse:0.44875	eval-rmse:0.473875	train-mae:1063.8	eval-mae:1125.73
+[350]	train-rmse:0.445497	eval-rmse:0.473283	train-mae:1054.22	eval-mae:1123.78
+[400]	train-rmse:0.442625	eval-rmse:0.472807	train-mae:1045.86	eval-mae:1122.69
+[450]	train-rmse:0.439914	eval-rmse:0.472541	train-mae:1038.16	eval-mae:1122.23
+[500]	train-rmse:0.437569	eval-rmse:0.472447	train-mae:1031.19	eval-mae:1122.09
+Stopping. Best iteration:
+[486]	train-rmse:0.438087	eval-rmse:0.472456	train-mae:1032.72	eval-mae:1121.83
+
+Fold 3
+[0]	train-rmse:6.32846	eval-rmse:6.33077	train-mae:3232.01	eval-mae:3239.89
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.65869	eval-rmse:0.669086	train-mae:1548.28	eval-mae:1570.67
+[100]	train-rmse:0.477091	eval-rmse:0.495496	train-mae:1149.66	eval-mae:1192.91
+[150]	train-rmse:0.460994	eval-rmse:0.483537	train-mae:1100.7	eval-mae:1155.86
+[200]	train-rmse:0.455115	eval-rmse:0.481421	train-mae:1082.19	eval-mae:1148.22
+[250]	train-rmse:0.451238	eval-rmse:0.480377	train-mae:1070.66	eval-mae:1144.57
+[300]	train-rmse:0.44773	eval-rmse:0.479782	train-mae:1060.57	eval-mae:1142.57
+[350]	train-rmse:0.444826	eval-rmse:0.479443	train-mae:1051.87	eval-mae:1140.38
+[400]	train-rmse:0.441997	eval-rmse:0.479088	train-mae:1043.88	eval-mae:1138.92
+[450]	train-rmse:0.439361	eval-rmse:0.478868	train-mae:1036.11	eval-mae:1137.91
+[500]	train-rmse:0.436714	eval-rmse:0.478765	train-mae:1028.52	eval-mae:1137.26
+[550]	train-rmse:0.434353	eval-rmse:0.478655	train-mae:1021.41	eval-mae:1136.35
+[600]	train-rmse:0.431941	eval-rmse:0.478473	train-mae:1014.52	eval-mae:1135.99
+Stopping. Best iteration:
+[603]	train-rmse:0.431769	eval-rmse:0.478476	train-mae:1014.07	eval-mae:1135.97
+
+Fold 4
+[0]	train-rmse:6.32857	eval-rmse:6.33027	train-mae:3233.4	eval-mae:3227.37
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658902	eval-rmse:0.660463	train-mae:1550.02	eval-mae:1549.74
+[100]	train-rmse:0.47786	eval-rmse:0.484413	train-mae:1151.49	eval-mae:1172.29
+[150]	train-rmse:0.461661	eval-rmse:0.472083	train-mae:1101.5	eval-mae:1134.01
+[200]	train-rmse:0.456066	eval-rmse:0.470054	train-mae:1084.07	eval-mae:1126.53
+[250]	train-rmse:0.452185	eval-rmse:0.469213	train-mae:1072.39	eval-mae:1124.1
+[300]	train-rmse:0.448653	eval-rmse:0.468488	train-mae:1062.29	eval-mae:1122.13
+[350]	train-rmse:0.445706	eval-rmse:0.468167	train-mae:1053.71	eval-mae:1121.03
+[400]	train-rmse:0.442417	eval-rmse:0.467747	train-mae:1044.37	eval-mae:1119.91
+[450]	train-rmse:0.439556	eval-rmse:0.467356	train-mae:1036.11	eval-mae:1119.18
+Stopping. Best iteration:
+[457]	train-rmse:0.439221	eval-rmse:0.467328	train-mae:1035.12	eval-mae:1119.01
+
+Fold 5
+[0]	train-rmse:6.32836	eval-rmse:6.33269	train-mae:3230.45	eval-mae:3253.94
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658419	eval-rmse:0.669457	train-mae:1547.18	eval-mae:1579.17
+[100]	train-rmse:0.477212	eval-rmse:0.495378	train-mae:1148.67	eval-mae:1201.48
+[150]	train-rmse:0.461385	eval-rmse:0.483073	train-mae:1100.65	eval-mae:1162.5
+[200]	train-rmse:0.454932	eval-rmse:0.480725	train-mae:1080.9	eval-mae:1153.83
+[250]	train-rmse:0.451333	eval-rmse:0.479757	train-mae:1070.08	eval-mae:1150.23
+[300]	train-rmse:0.447759	eval-rmse:0.478967	train-mae:1059.77	eval-mae:1147.78
+[350]	train-rmse:0.444736	eval-rmse:0.478469	train-mae:1050.9	eval-mae:1146.09
+[400]	train-rmse:0.441899	eval-rmse:0.478131	train-mae:1042.67	eval-mae:1144.77
+[450]	train-rmse:0.439378	eval-rmse:0.477893	train-mae:1035.54	eval-mae:1143.76
+[500]	train-rmse:0.436748	eval-rmse:0.477629	train-mae:1027.87	eval-mae:1143
+[550]	train-rmse:0.434349	eval-rmse:0.477489	train-mae:1021	eval-mae:1142.67
+Stopping. Best iteration:
+[536]	train-rmse:0.435007	eval-rmse:0.477509	train-mae:1022.81	eval-mae:1142.54
+
+Fold 6
+[0]	train-rmse:6.32869	eval-rmse:6.32989	train-mae:3232.86	eval-mae:3232.23
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658296	eval-rmse:0.670961	train-mae:1548.34	eval-mae:1565
+[100]	train-rmse:0.476984	eval-rmse:0.495695	train-mae:1149.55	eval-mae:1190.97
+[150]	train-rmse:0.461054	eval-rmse:0.483226	train-mae:1100.68	eval-mae:1155.31
+[200]	train-rmse:0.45532	eval-rmse:0.480888	train-mae:1082.81	eval-mae:1148.2
+[250]	train-rmse:0.451198	eval-rmse:0.479764	train-mae:1070.61	eval-mae:1144.85
+[300]	train-rmse:0.447842	eval-rmse:0.478879	train-mae:1061.04	eval-mae:1142.28
+[350]	train-rmse:0.444732	eval-rmse:0.478304	train-mae:1051.89	eval-mae:1140.36
+[400]	train-rmse:0.441708	eval-rmse:0.477903	train-mae:1043.08	eval-mae:1139.36
+[450]	train-rmse:0.43896	eval-rmse:0.477558	train-mae:1035.06	eval-mae:1137.94
+[500]	train-rmse:0.436551	eval-rmse:0.477341	train-mae:1027.96	eval-mae:1137.4
+[550]	train-rmse:0.434156	eval-rmse:0.477178	train-mae:1021.08	eval-mae:1136.88
+[600]	train-rmse:0.431848	eval-rmse:0.477088	train-mae:1014.5	eval-mae:1136.46
+Stopping. Best iteration:
+[586]	train-rmse:0.432493	eval-rmse:0.477075	train-mae:1016.38	eval-mae:1136.29
+
+Fold 7
+[0]	train-rmse:6.32861	eval-rmse:6.32935	train-mae:3230.65	eval-mae:3252.14
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658364	eval-rmse:0.664282	train-mae:1547.47	eval-mae:1570.78
+[100]	train-rmse:0.477343	eval-rmse:0.492874	train-mae:1150.53	eval-mae:1192.26
+[150]	train-rmse:0.461208	eval-rmse:0.481526	train-mae:1101.29	eval-mae:1154.77
+[200]	train-rmse:0.455502	eval-rmse:0.479476	train-mae:1083.61	eval-mae:1146.3
+[250]	train-rmse:0.451658	eval-rmse:0.478633	train-mae:1072.38	eval-mae:1143.09
+[300]	train-rmse:0.448235	eval-rmse:0.477944	train-mae:1062.43	eval-mae:1140.88
+[350]	train-rmse:0.445368	eval-rmse:0.477405	train-mae:1054.11	eval-mae:1139.03
+[400]	train-rmse:0.44259	eval-rmse:0.476943	train-mae:1045.96	eval-mae:1137.55
+[450]	train-rmse:0.439765	eval-rmse:0.476703	train-mae:1037.99	eval-mae:1136.79
+[500]	train-rmse:0.437333	eval-rmse:0.476636	train-mae:1030.89	eval-mae:1136.69
+Stopping. Best iteration:
+[493]	train-rmse:0.43766	eval-rmse:0.476614	train-mae:1031.86	eval-mae:1136.58
+
+Fold 8
+[0]	train-rmse:6.32892	eval-rmse:6.32733	train-mae:3233.9	eval-mae:3222.84
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658184	eval-rmse:0.665633	train-mae:1548.97	eval-mae:1557.63
+[100]	train-rmse:0.47691	eval-rmse:0.493376	train-mae:1149.86	eval-mae:1186.46
+[150]	train-rmse:0.460819	eval-rmse:0.482061	train-mae:1100.28	eval-mae:1152.42
+[200]	train-rmse:0.454996	eval-rmse:0.480157	train-mae:1082.08	eval-mae:1146.36
+[250]	train-rmse:0.450879	eval-rmse:0.479155	train-mae:1070.04	eval-mae:1142.98
+[300]	train-rmse:0.447374	eval-rmse:0.478617	train-mae:1059.93	eval-mae:1141.27
+[350]	train-rmse:0.444383	eval-rmse:0.47823	train-mae:1051.38	eval-mae:1139.96
+[400]	train-rmse:0.441565	eval-rmse:0.477918	train-mae:1043.18	eval-mae:1138.71
+[450]	train-rmse:0.438958	eval-rmse:0.47773	train-mae:1035.48	eval-mae:1137.8
+[500]	train-rmse:0.436578	eval-rmse:0.47746	train-mae:1028.57	eval-mae:1136.77
+[550]	train-rmse:0.434124	eval-rmse:0.477297	train-mae:1021.48	eval-mae:1136.33
+[600]	train-rmse:0.431728	eval-rmse:0.477154	train-mae:1014.63	eval-mae:1135.85
+Stopping. Best iteration:
+[613]	train-rmse:0.43105	eval-rmse:0.477123	train-mae:1012.68	eval-mae:1135.58
+
+Fold 9
+[0]	train-rmse:6.32782	eval-rmse:6.33163	train-mae:3233.31	eval-mae:3228.18
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.658319	eval-rmse:0.667615	train-mae:1549.36	eval-mae:1556.71
+[100]	train-rmse:0.477605	eval-rmse:0.492305	train-mae:1152.43	eval-mae:1179.16
+[150]	train-rmse:0.461361	eval-rmse:0.479759	train-mae:1102.73	eval-mae:1140.61
+[200]	train-rmse:0.455909	eval-rmse:0.477605	train-mae:1085.67	eval-mae:1132.91
+[250]	train-rmse:0.45175	eval-rmse:0.476539	train-mae:1073.35	eval-mae:1129.54
+[300]	train-rmse:0.447902	eval-rmse:0.475835	train-mae:1062.21	eval-mae:1127.83
+[350]	train-rmse:0.445	eval-rmse:0.475412	train-mae:1053.85	eval-mae:1126.14
+[400]	train-rmse:0.442393	eval-rmse:0.475161	train-mae:1046.23	eval-mae:1125.43
+[450]	train-rmse:0.439698	eval-rmse:0.474944	train-mae:1038.19	eval-mae:1124.73
+[500]	train-rmse:0.436869	eval-rmse:0.474695	train-mae:1029.99	eval-mae:1124.05
+[550]	train-rmse:0.434379	eval-rmse:0.474582	train-mae:1022.5	eval-mae:1123.56
+[600]	train-rmse:0.432176	eval-rmse:0.474565	train-mae:1016.09	eval-mae:1123.25
+[650]	train-rmse:0.430218	eval-rmse:0.474485	train-mae:1010.31	eval-mae:1122.95
+Stopping. Best iteration:
+[650]	train-rmse:0.430218	eval-rmse:0.474485	train-mae:1010.31	eval-mae:1122.95
+
+Fold 10
+[0]	train-rmse:6.32857	eval-rmse:6.32281	train-mae:3234.71	eval-mae:3215.59
+Multiple eval metrics have been passed: 'eval-mae' will be used for early stopping.
+
+Will train until eval-mae hasn't improved in 25 rounds.
+[50]	train-rmse:0.65875	eval-rmse:0.659771	train-mae:1548.97	eval-mae:1544.63
+[100]	train-rmse:0.478017	eval-rmse:0.487128	train-mae:1152.27	eval-mae:1173.96
+[150]	train-rmse:0.461874	eval-rmse:0.475598	train-mae:1102.93	eval-mae:1141.1
+[200]	train-rmse:0.456519	eval-rmse:0.473337	train-mae:1085.84	eval-mae:1133.43
+[250]	train-rmse:0.452467	eval-rmse:0.472115	train-mae:1073.94	eval-mae:1129.74
+[300]	train-rmse:0.448972	eval-rmse:0.471394	train-mae:1063.75	eval-mae:1127.46
+[350]	train-rmse:0.446074	eval-rmse:0.470947	train-mae:1055.31	eval-mae:1126.08
+[400]	train-rmse:0.443305	eval-rmse:0.470664	train-mae:1047.29	eval-mae:1125.12
+[450]	train-rmse:0.440471	eval-rmse:0.470393	train-mae:1038.93	eval-mae:1124.33
+[500]	train-rmse:0.437796	eval-rmse:0.470215	train-mae:1031.1	eval-mae:1123.85
+[550]	train-rmse:0.435452	eval-rmse:0.470088	train-mae:1024.36	eval-mae:1123.47
+[600]	train-rmse:0.433011	eval-rmse:0.470022	train-mae:1017.23	eval-mae:1123.3
+Stopping. Best iteration:
+[586]	train-rmse:0.433615	eval-rmse:0.470025	train-mae:1018.93	eval-mae:1123.21
+
+         p0        p1        p2        p3        p4        p5        p6  \
+0  7.485871  7.473563  7.508641  7.492875  7.452305  7.514398  7.515998   
+1  7.713735  7.701699  7.718401  7.735327  7.716780  7.594698  7.653743   
+2  9.195165  9.180646  9.216466  9.330858  9.172117  9.233468  9.231293   
+3  8.738193  8.828426  8.799370  8.794486  8.802082  8.701653  8.845459   
+4  6.892112  6.908278  6.887197  6.898096  6.929547  6.897742  6.869626   
+
+         p7        p8        p9  
+0  7.439064  7.478486  7.492419  
+1  7.732041  7.652677  7.725072  
+2  9.202710  9.161344  9.203311  
+3  8.790668  8.724101  8.844520  
+4  6.850208  6.892598  6.858734  
+Finished
+>>> 

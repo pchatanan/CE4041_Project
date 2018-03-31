@@ -1,0 +1,54 @@
+========= RESTART: /home/faith/Dropbox/CE4041_Project/src/Draft2.py =========
+Importing libraries...
+Using TensorFlow backend.
+Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+[GCC 5.4.0 20160609]
+Finished importing libraries.
+
+Reading full dataset...	Finished.
+Read 188318 training data samples with 132 attributes.
+Read 125546 testing data samples with 131 attributes.
+
+Transforming outputs using log(loss+1)...	Finished.
+One-hot encoding of categorical inputs....	Finished.
+Splitting data into inputs/outputs....	Finished.
+Splitting data into training/validation sets...	Finished.
+
+
+Ensemble learning with XGBoost models with n_estimators = [ 50 150 250 350 450]
+
+Training for n_estimators = 50
+Fitting model...	Finished.
+Making predictions...	Finished.
+Collecting values for ensemble learning...	Finished.
+Writing to file...	Finished.
+
+Training for n_estimators = 150
+Fitting model...	Finished.
+Making predictions...	Finished.
+Collecting values for ensemble learning...	Finished.
+Writing to file...	Finished.
+
+Training for n_estimators = 250
+Fitting model...	Finished.
+Making predictions...	Finished.
+Collecting values for ensemble learning...	Finished.
+Writing to file...	Finished.
+
+Training for n_estimators = 350
+Fitting model...	Finished.
+Making predictions...	Finished.
+Collecting values for ensemble learning...	Finished.
+Writing to file...	Finished.
+
+Training for n_estimators = 450
+Fitting model...	Finished.
+Making predictions...	Finished.
+Collecting values for ensemble learning...	Finished.
+Writing to file...	Finished.
+
+
+Averaging...	Finished.
+Writing to file...	Finished.
+end
+>>> 

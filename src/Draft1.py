@@ -1,3 +1,5 @@
+# The purpose of this draft is to assess the score of each possible model.
+
 from __future__ import print_function
 print('Importing libraries...')
 import keras
@@ -70,13 +72,7 @@ ParaRandomForest = numpy.array([30,50,70,90,110,130]);
 ParaExtraTrees = numpy.array([70,90,110,130,150,170,190]);
 ParaAdaBoost = numpy.array([80,100,120,160,180]);
 ParaSGBoost = numpy.array([350,400,500]);
-ParaXGBoost = numpy.array([100]);
-
-# send message to local machine
-##sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-##IPADDR = "192.168.1.100"
-##IPPORT = 5004
-##sock.sendto("Started".encode(), (IPADDR, IPPORT))
+ParaXGBoost = numpy.array([800]);
 
 ##################
 ### END CONFIG ###
@@ -202,13 +198,21 @@ if datadescription:
 # so throughout this program, transformData() and inverseTransformData()
 # will be used instead of whatever function you're using to transform
 
-shift=500
+shift=700
 def transformData(data):
     return numpy.log(data+shift)
 def inverseTransformData(data):
     return (numpy.exp(data)-shift)
 
-# transformed loss = log(shift+original loss)
+# transformed loss = ln(originalloss^0.25)
+# original loss = (e^(transformedloss))^4
+##power=0.25
+##def transformData(data):
+##    return numpy.log(numpy.power(data,0.25))
+##def inverseTransformData(data):
+##    return (numpy.power(numpy.exp(data),4))
+
+# transformed loss = ln(shift+original loss)
 # original loss = e^(transformed loss)-shift
 # author's shift is 1
 dataset["loss"] = transformData(dataset["loss"])
@@ -378,6 +382,9 @@ X_train, X_val, Y_train, Y_val = cross_validation.train_test_split(X, Y, test_si
 del X
 del Y
 
+# final datasets:   X_train, X_val = input features for training and validation
+#                   Y_train, Y_val = output values for training and validation
+
 # All features
 X_all = []
 
@@ -403,13 +410,13 @@ from sklearn.metrics import mean_absolute_error
 
 # assumes actual and predicted values already converted
 def getResultSimple(actual, predicted):
-    return mean_absolute_error(actual,predicted)
+    return mean_absolute_error(actual,predicted) # change this to change loss fn
 
 # assumes actual and predicted values already converted
 def getResult(actual, predicted):
     actual = inverseTransformData(actual)
     predicted = inverseTransformData(predicted)
-    return mean_absolute_error(actual,predicted)
+    return getResultSimple(actual, predicted)
 
 ### Linear Regression (Linear algo)
 #  Author's best: LR, MAE=1278
@@ -1029,10 +1036,12 @@ def XGBoost(n_list):
     print('n_estimators\tMAE')
     from xgboost import XGBRegressor
 
-
     for n_estimators in n_list:
         # Set the base model
-        model = XGBRegressor(n_estimators=n_estimators,seed=seed)
+        model = XGBRegressor(
+            n_estimators=800,
+            seed=seed
+            )
         print(str(n_estimators),end='')
         algo = "XGB"
 
@@ -1043,7 +1052,7 @@ def XGBoost(n_list):
             mae.append(result)
             print('\t' + str(result))
 
-        comb.append(algo + " %s" % n_estimators )
+        #comb.append(algo + " %s" % n_estimators )
 
     if (len(n_list)==0):
         mae.append(1169)
@@ -1118,6 +1127,8 @@ if makePredictions:
         dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/subset/test(1-10000).csv"))
     else:
         dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/full/test.csv"))
+
+    # dataset_test = pandas.read_csv(os.path.join(dirr, "../raw data/full/test.csv"))
         
     # Drop unnecessary columns
     ID = dataset_test['id']
