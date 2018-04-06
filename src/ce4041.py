@@ -93,30 +93,6 @@ def oneHotEncoding(dataset, dataset_submission, oneHotEncode=False):
 
     return dataset_encoded, dataset_submission_encoded
 
-def shorterEncoding(train, test):
-    joined = pandas.concat([train, test])
-    for column in list(train.select_dtypes(include=['object']).columns):
-        if train[column].nunique() != test[column].nunique():
-            set_train = set(train[column].unique())
-            set_test = set(test[column].unique())
-            remove_train = set_train - set_test
-            remove_test = set_test - set_train
-
-            remove = remove_train.union(remove_test)
-            def filter_cat(x):
-                if x in remove:
-                    return numpy.nan
-                return x
-
-            joined[column] = joined[column].apply(lambda x: filter_cat(x), 1)
-            
-        joined[column] = pandas.factorize(joined[column].values, sort=True)[0]
-
-    train = joined[joined['loss'].notnull()]
-    test = joined[joined['loss'].isnull()]
-
-    return train, test
-
 def transformData(data):
     return numpy.log(data+shift)
 

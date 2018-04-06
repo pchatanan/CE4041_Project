@@ -15,4 +15,4 @@ all_df['loss'] = np.mean(all_df.iloc[:, [1, 3, 5, 7]], axis=1)
 
 print(all_df.head(5))
 
-all_df.iloc[:, :2].to_csv('yeah.csv', index=False)
+all_df.iloc[:, :2].to_csv('submission.csv', index=False)
