@@ -40,7 +40,7 @@ def readData(fulldataset=False):
 
     return dataset, dataset_submission, ID
 
-def oneHotEncoding(dataset, dataset_submission):
+def oneHotEncoding(dataset, dataset_submission, oneHotEncode=False):
 
     cols = dataset.columns
     labels = []
@@ -66,10 +66,12 @@ def oneHotEncoding(dataset, dataset_submission):
         feature = feature.reshape(dataset.shape[0], 1)
         feature_submission = label_encoder.transform(dataset_submission.iloc[:,i])
         feature_submission = feature_submission.reshape(dataset_submission.shape[0], 1)
+
         # One hot encode
-        onehot_encoder = OneHotEncoder(sparse=False,n_values=len(labels[i]))
-        feature = onehot_encoder.fit_transform(feature)
-        feature_submission = onehot_encoder.fit_transform(feature_submission)
+        if oneHotEncode:
+            onehot_encoder = OneHotEncoder(sparse=False,n_values=len(labels[i]))
+            feature = onehot_encoder.fit_transform(feature)
+            feature_submission = onehot_encoder.fit_transform(feature_submission)
         cats.append(feature)
         cats_submission.append(feature_submission)
 
@@ -90,6 +92,30 @@ def oneHotEncoding(dataset, dataset_submission):
     del encoded_cats_submission
 
     return dataset_encoded, dataset_submission_encoded
+
+def shorterEncoding(train, test):
+    joined = pandas.concat([train, test])
+    for column in list(train.select_dtypes(include=['object']).columns):
+        if train[column].nunique() != test[column].nunique():
+            set_train = set(train[column].unique())
+            set_test = set(test[column].unique())
+            remove_train = set_train - set_test
+            remove_test = set_test - set_train
+
+            remove = remove_train.union(remove_test)
+            def filter_cat(x):
+                if x in remove:
+                    return numpy.nan
+                return x
+
+            joined[column] = joined[column].apply(lambda x: filter_cat(x), 1)
+            
+        joined[column] = pandas.factorize(joined[column].values, sort=True)[0]
+
+    train = joined[joined['loss'].notnull()]
+    test = joined[joined['loss'].isnull()]
+
+    return train, test
 
 def transformData(data):
     return numpy.log(data+shift)

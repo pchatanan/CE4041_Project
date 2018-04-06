@@ -16,7 +16,8 @@ dataset, dataset_submission, dataset_submission_ID = ce4041.readData(fulldataset
 print('\nTransforming outputs using log(loss+' + str(ce4041.shift) + ')')
 dataset["loss"] = ce4041.transformData(dataset["loss"])
 print('One-hot encoding of categorical inputs')
-dataset_encoded, dataset_submission_encoded = ce4041.oneHotEncoding(dataset, dataset_submission)
+dataset_encoded, dataset_submission_encoded = ce4041.oneHotEncoding(dataset, dataset_submission, oneHotEncode=False)
+
 print('Splitting data into inputs/outputs')
 X = dataset_encoded[:,0:(dataset_encoded.shape[1]-1)]
 Y = dataset_encoded[:,(dataset_encoded.shape[1]-1)]
@@ -33,15 +34,27 @@ for index in range(len(n_list)):
     print('\nTraining for n_estimators = ' + str(n_list[index]))
 
     print('Fitting model')
+##    model = XGBRegressor(n_estimators=n_estimators,
+##                         num_boost_round=200,
+##                         gamma=0.2,
+##                         max_depth=8,
+##                         min_child_weight=6,
+##                         colsample_bytree=0.6,
+##                         subsample=0.9,
+##                         eta=0.07)
+##    # see https://github.com/dnkirill/allstate_capstone/blob/master/part2_xgboost.ipynb
     model = XGBRegressor(n_estimators=n_estimators,
-                         num_boost_round=200,
-                         gamma=0.2,
-                         max_depth=8,
-                         min_child_weight=6,
-                         colsample_bytree=0.6,
-                         subsample=0.9,
-                         eta=0.07)
-    # see https://github.com/dnkirill/allstate_capstone/blob/master/part2_xgboost.ipynb
+                            min_child_weight= 1,
+                            eta= 0.01,
+                            colsample_bytree= 0.5,
+                            max_depth= 12,
+                            subsample= 0.8,
+                            alpha= 1,
+                            gamma= 1,
+                            silent= 1,
+                            verbose_eval= True,
+                            seed=0)
+    # see https://www.kaggle.com/iglovikov/xgb-1114/code
     model.fit(X,Y)
 
     print('Making predictions')
