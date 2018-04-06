@@ -30,7 +30,7 @@ modelnameseval = []
 
 for index in range(len(n_list)):
 
-    n_estimators = numpy.array([n_list[index]])
+    n_estimators = n_list[index]
     print('\nTraining for n_estimators = ' + str(n_list[index]))
 
     print('Fitting model')
