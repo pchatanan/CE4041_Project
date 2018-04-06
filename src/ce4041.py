@@ -40,7 +40,7 @@ def readData(fulldataset=False):
 
     return dataset, dataset_submission, ID
 
-def oneHotEncoding(dataset, dataset_submission, oneHotEncode=False):
+def categoricalEncoding(dataset, dataset_submission, oneHotEncode=False):
 
     cols = dataset.columns
     labels = []

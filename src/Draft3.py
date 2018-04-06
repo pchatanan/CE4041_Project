@@ -10,13 +10,13 @@ import ce4041
 from sklearn import model_selection
 
 fulldataset = True
-n_list = numpy.arange(start=200,stop=1800,step=150)
+n_list = numpy.arange(start=200,stop=1700,step=150)
 
 dataset, dataset_submission, dataset_submission_ID = ce4041.readData(fulldataset=fulldataset)
 print('\nTransforming outputs using log(loss+' + str(ce4041.shift) + ')')
 dataset["loss"] = ce4041.transformData(dataset["loss"])
-print('One-hot encoding of categorical inputs')
-dataset_encoded, dataset_submission_encoded = ce4041.oneHotEncoding(dataset, dataset_submission, oneHotEncode=False)
+print('Encoding of categorical inputs')
+dataset_encoded, dataset_submission_encoded = ce4041.categoricalEncoding(dataset, dataset_submission, oneHotEncode=False)
 
 print('Splitting data into inputs/outputs')
 X = dataset_encoded[:,0:(dataset_encoded.shape[1]-1)]
