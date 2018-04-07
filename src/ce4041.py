@@ -7,8 +7,8 @@ import pandas
 ### GENERAL FUNCTIONS ###
 #########################
 
-split = 116 # range of features considered
-size = 15 # number of features considered
+split = 116 # categorical features
+size = 15 # continuous features
 seed = 0
 shift = 700
 
